@@ -62,3 +62,17 @@ q('#bookingForm').addEventListener('submit',function(e){e.preventDefault();var c
 })();
 </script>
 </body></html>
+<label for="flavours">Required flavours</label>
+<textarea id="flavours" name="flavours" placeholder="Example: Strawberry, Blue Raspberry, Cola, Bubblegum"></textarea>
+
+<label for="setupLocation">Where will the machine/trailer be set up?</label>
+<select id="setupLocation" name="setupLocation">
+  <option value="">Please choose</option>
+  <option value="Inside house">Inside house</option>
+  <option value="Inside venue">Inside venue</option>
+  <option value="Garden">Garden</option>
+  <option value="Driveway">Driveway</option>
+  <option value="Trailer on driveway">Trailer on driveway</option>
+  <option value="Trailer at venue">Trailer at venue</option>
+  <option value="Other">Other - add details in notes</option>
+</select>
