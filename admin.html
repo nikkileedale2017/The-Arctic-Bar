@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Arctic Bar Admin | Job Sheets</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script defer src="config.js"></script>
+  <script defer src="script.js"></script>
+</head>
+<body>
+<header class="site-header no-print">
+  <a class="brand" href="index.html"><span class="halo"></span><span>The Arctic Bar</span></a>
+  <nav class="nav"><a href="index.html">Home</a><a href="booking.html">Book Now</a><a href="admin.html">Admin</a></nav>
+</header>
+
+<main class="admin-wrap">
+  <section class="section-title centered no-print"><p class="eyebrow">Admin Dashboard</p><h1>Bookings & Printable Job Sheets</h1><p>Confirm bookings, view customer details and print the job sheet for setup day.</p></section>
+  <div class="status-bar no-print" data-db-status></div>
+
+  <section class="card admin-controls no-print">
+    <label>Admin PIN <input type="password" data-admin-pin placeholder="Enter your admin PIN"></label>
+    <button class="button primary" data-load-bookings>Load Bookings</button>
+    <button class="button ghost" data-print-current>Print Current Job Sheet</button>
+  </section>
+
+  <div class="admin-layout">
+    <section class="card no-print"><h2>Bookings</h2><div data-bookings-list class="bookings-list">Enter your PIN and load bookings.</div></section>
+    <section class="card job-sheet" data-job-sheet><h2>Job Sheet</h2><p>Select a booking to view and print the job sheet.</p></section>
+  </div>
+</main>
+</body>
+</html>
