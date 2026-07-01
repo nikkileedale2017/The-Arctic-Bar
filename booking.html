@@ -1,63 +1,281 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Book | The Arctic Bar</title><link rel="stylesheet" href="styles.css"></head><body><header class="nav"><a href="index.html" class="brand"><img src="logo.jpg"></a><button id="menuBtn">☰</button><nav id="menu"><a href="index.html">Home</a><a href="booking.html">Book</a><a href="packages.html">Packages</a><a href="upgrades.html">Upgrades</a><a href="gallery.html">Gallery</a><a href="contact.html">Contact</a><a href="admin.html">Admin</a></nav></header><main><h1>Booking system</h1><p class="lead">Build your perfect package, tick your choices and get your total. Dates already saved as accepted bookings are blocked on this device.</p><form id="bookingForm" class="booking"><section class="panel"><h2>Customer details</h2><label>Full name<input required name="name"></label><label>Phone<input required name="phone"></label><label>Email<input type="email" name="email"></label><label>Home address<textarea name="address"></textarea></label></section><section class="panel"><h2>Event details</h2><label>Event type<input name="eventType"></label><label>Event date<input required type="date" name="eventDate" id="eventDate"></label><p id="dateWarning" class="warning"></p><label>Start time<input type="time" name="eventTime"></label><label>Venue / location<input name="venue"></label><label>Guests approx.<input type="number" min="1" name="guests"></label><label>Additional info / notes<textarea name="notes"></textarea></label></section><section class="panel full"><h2>Choose your package</h2><div class="options packages" id="packages"></div></section><section class="panel full"><h2>Optional upgrades</h2><div class="options" id="upgrades"></div></section><section class="panel full extras"><h2>Extra information</h2><label>Extra hours (£50 per hour)<input type="number" min="0" value="0" name="extraHours"></label><label>Additional bartenders (£50 each)<input type="number" min="0" value="0" name="extraBartenders"></label><label>Travel surcharge (£ if applicable)<input type="number" min="0" value="0" name="travel"></label><label>Deposit paid (£)<input type="number" min="0" value="0" name="deposit"></label></section><aside class="panel summary"><h2>Order summary</h2><div id="summaryItems"></div><div class="total">Total: <strong id="total">£0.00</strong></div><div class="total smalltotal">Balance: <strong id="balance">£0.00</strong></div><button class="btn" type="submit">Save booking enquiry</button><button class="btn ghost" type="button" onclick="window.print()">Print page</button><p class="small">This Stage 2 version stores bookings in your browser. It works on GitHub Pages, but for bookings to sync across phones we’ll connect Firebase/Supabase later.</p></aside></form></main><footer>© The Arctic Bar</footer><script>
-window.ARCTIC_CONFIG = {
-  businessName: 'The Arctic Bar',
-  phones: ['07594 141231','07787 895618'],
-  socials: { instagram: '#thearcticbar1', facebook: '@thearcticbar' },
-  adminPassword: 'Arctic2026',
-  packages: [
-    {name:'Bronze', price:250, desc:'1 double tank machine, 12 litres ready mixed slush, max 4 hours, trailer not included'},
-    {name:'Silver', price:400, desc:'2 double tank machines, 24 litres ready mixed slush, max 4 hours, trailer not included'},
-    {name:'Gold', price:550, desc:'3 double tank machines, 36 litres ready mixed slush, max 4 hours, trailer included'},
-    {name:'Platinum', price:700, desc:'4 double tank machines, 48 litres ready mixed slush, max 4 hours, trailer included'},
-    {name:'Diamond', price:1000, desc:'4 machines, 48–96 litres ready mixed slush, trailer, seating, pick n mix and 2 bartenders included'},
-    {name:'Custom', price:0, poa:true, desc:'Bespoke package to suit your event'}
-  ],
-  upgrades: [
-    {name:'Personalised Cups', price:2, unit:'from £2 per cup'},
-    {name:'Novelty Cups', price:2, unit:'from £2 per cup'},
-    {name:'DJ', price:150},
-    {name:'LED Shorts & Shots', price:45},
-    {name:'Pop Up Bar', price:0, poa:true},
-    {name:'LED Lighting All Around', price:0, poa:true},
-    {name:'Candy Floss Machine', price:95},
-    {name:'Popcorn Machine', price:95},
-    {name:'Cake Stand Hire', price:0, poa:true},
-    {name:'Sweet Cart', price:95},
-    {name:'Pick N Mix', price:0, poa:true},
-    {name:'Pub Snacks', price:0, poa:true},
-    {name:'Variety of Soft Drinks', price:0, poa:true},
-    {name:'Canned Cocktails', price:0, poa:true},
-    {name:'Extra Bartenders', price:50, unit:'per bartender'},
-    {name:'Extra Slush Mix', price:40, unit:'per 6 litre mix'},
-    {name:'Happy Hour Sourz', price:50},
-    {name:'Test Tube Shots', price:50},
-    {name:'Shot Carousel 61 Mini Shots', price:70}
-  ]
-};
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Book | The Arctic Bar</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
 
-const $ = s => document.querySelector(s);
-const $$ = s => Array.from(document.querySelectorAll(s));
-const money = n => '£' + Number(n || 0).toFixed(2);
-const storeKey = 'arcticBookingsV2';
-const menuBtn = $('#menuBtn'), menu = $('#menu'); if(menuBtn && menu) menuBtn.onclick=()=>menu.classList.toggle('open');
-function bookings(){return JSON.parse(localStorage.getItem(storeKey)||'[]')}
-function saveBookings(list){localStorage.setItem(storeKey, JSON.stringify(list))}
-function uid(){return 'AB-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).slice(2,6).toUpperCase()}
-function isAcceptedOnDate(date){return bookings().some(b=>b.eventDate===date && ['accepted','deposit paid','paid in full'].includes((b.status||'').toLowerCase()))}
-function initBooking(){ if(!window.ARCTIC_CONFIG || !$('#bookingForm')) return; const pkgBox=$('#packages'), upBox=$('#upgrades');
-ARCTIC_CONFIG.packages.forEach((p,i)=>pkgBox.insertAdjacentHTML('beforeend',`<label class="choice"><input type="radio" name="package" value="${i}"><b>${p.name}</b><span>${p.desc}</span><strong>${p.poa?'POA':money(p.price)}</strong></label>`));
-ARCTIC_CONFIG.upgrades.forEach((u,i)=>upBox.insertAdjacentHTML('beforeend',`<label class="choice"><input type="checkbox" name="upgrade" value="${i}"><b>${u.name}</b><span>${u.unit||''}</span><strong>${u.poa?'POA':money(u.price)}</strong></label>`));
-const dateInput=$('#eventDate'), dateWarning=$('#dateWarning');
-function selectedLines(){let total=0, lines=[], poa=[]; const pv=document.querySelector('input[name="package"]:checked'); if(pv){const p=ARCTIC_CONFIG.packages[pv.value]; if(!p.poa) total+=p.price; else poa.push(p.name); lines.push(`${p.name} - ${p.poa?'POA':money(p.price)}`)} $$('input[name="upgrade"]:checked').forEach(c=>{const u=ARCTIC_CONFIG.upgrades[c.value]; if(!u.poa) total+=u.price; else poa.push(u.name); lines.push(`${u.name} - ${u.poa?'POA':money(u.price)}`)}); return {total,lines,poa}}
-const calc=()=>{let {total,lines}=selectedLines(); const f=new FormData($('#bookingForm')); const extraHours=+f.get('extraHours')||0, bars=+f.get('extraBartenders')||0, travel=+f.get('travel')||0, deposit=+f.get('deposit')||0; if(extraHours){total += extraHours*50; lines.push(`Extra hours x ${extraHours} - ${money(extraHours*50)}`)} if(bars){total += bars*50; lines.push(`Additional bartenders x ${bars} - ${money(bars*50)}`)} if(travel){total += travel; lines.push(`Travel surcharge - ${money(travel)}`)} $('#summaryItems').innerHTML = lines.length ? lines.map(x=>`<p>${x}</p>`).join('') : '<p>No selections yet.</p>'; $('#total').textContent=money(total); $('#balance').textContent=money(Math.max(total-deposit,0)); return total};
-$$('input,textarea').forEach(i=>i.addEventListener('change', calc)); $$('input').forEach(i=>i.addEventListener('input', calc)); calc();
-dateInput.addEventListener('change',()=>{dateWarning.textContent = isAcceptedOnDate(dateInput.value) ? 'This date is already accepted/booked in your admin records. Choose another date or check admin.' : ''});
-$('#bookingForm').addEventListener('submit', e=>{e.preventDefault(); if(isAcceptedOnDate(dateInput.value) && !confirm('This date is already accepted/booked. Save enquiry anyway?')) return; const fd=new FormData(e.target); const data=Object.fromEntries(fd.entries()); const sel=selectedLines(); data.id=uid(); data.created=new Date().toLocaleString(); data.status='enquiry'; data.total=calc(); data.balance=Math.max(data.total-(+data.deposit||0),0); data.packageName = data.package!==undefined && ARCTIC_CONFIG.packages[data.package] ? ARCTIC_CONFIG.packages[data.package].name : ''; data.upgradeNames = $$('input[name="upgrade"]:checked').map(c=>ARCTIC_CONFIG.upgrades[c.value].name); data.summary=sel.lines; const list=bookings(); list.push(data); saveBookings(list); alert('Booking saved. Open Admin to accept it, print a job sheet, or mark deposit paid.'); location.href='admin.html';});}
-function initAdmin(){ if(!$('#adminPanel')) return; const login=$('#loginPanel'), panel=$('#adminPanel'); $('#loginBtn').onclick=()=>{if($('#adminPass').value===ARCTIC_CONFIG.adminPassword){login.classList.add('hidden');panel.classList.remove('hidden');renderAdmin()}else alert('Wrong password')}; $('#searchBookings').addEventListener('input', renderAdmin); $('#clearBtn').onclick=()=>{if(confirm('Delete all saved bookings on this browser?')){saveBookings([]);renderAdmin()}}; $('#exportBtn').onclick=exportCSV;}
-function renderAdmin(){const root=$('#bookingsTable'); if(!root)return; const q=($('#searchBookings')?.value||'').toLowerCase(); let list=bookings().filter(b=>JSON.stringify(b).toLowerCase().includes(q)).sort((a,b)=>(a.eventDate||'').localeCompare(b.eventDate||'')); root.innerHTML=list.length?'':'<p>No bookings saved yet.</p>'; list.forEach(b=>{const card=document.createElement('div'); card.className='adminCard'; card.innerHTML=`<h3>${b.name||'Customer'} — ${b.eventDate||'No date'} <span class="status">${b.status||'enquiry'}</span></h3><div class="adminGrid"><p><b>Phone:</b><br>${b.phone||''}</p><p><b>Venue:</b><br>${b.venue||''}</p><p><b>Total:</b><br>${money(b.total)} | Balance ${money(b.balance)}</p><p><b>Package:</b><br>${b.packageName||''}</p><p><b>Upgrades:</b><br>${(b.upgradeNames||[]).join(', ')||'None'}</p><p><b>Created:</b><br>${b.created||''}</p></div><label>Status<select data-status="${b.id}"><option>enquiry</option><option>accepted</option><option>deposit paid</option><option>paid in full</option><option>completed</option><option>declined</option><option>cancelled</option></select></label><a class="btn" href="job-sheet.html?id=${encodeURIComponent(b.id)}">Open job sheet</a><button class="btn ghost" data-print="${b.id}">Quick print</button><button class="btn danger" data-del="${b.id}">Delete</button>`; root.appendChild(card); card.querySelector('select').value=b.status||'enquiry';});
-$$('[data-status]').forEach(s=>s.onchange=()=>{const list=bookings(); const b=list.find(x=>x.id===s.dataset.status); if(b){b.status=s.value; saveBookings(list); renderAdmin()}}); $$('[data-del]').forEach(btn=>btn.onclick=()=>{if(confirm('Delete this booking?')){saveBookings(bookings().filter(b=>b.id!==btn.dataset.del));renderAdmin()}}); $$('[data-print]').forEach(btn=>btn.onclick=()=>{location.href='job-sheet.html?id='+encodeURIComponent(btn.dataset.print)});}
-function exportCSV(){const list=bookings(); const rows=[['id','status','name','phone','email','eventDate','eventTime','venue','package','upgrades','total','deposit','balance']]; list.forEach(b=>rows.push([b.id,b.status,b.name,b.phone,b.email,b.eventDate,b.eventTime,b.venue,b.packageName,(b.upgradeNames||[]).join('; '),b.total,b.deposit,b.balance])); const csv=rows.map(r=>r.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(',')).join('\n'); const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'})); a.download='arctic-bar-bookings.csv'; a.click();}
-function initJob(){const el=$('#jobSheet'); if(!el)return; const id=new URLSearchParams(location.search).get('id'); const b=bookings().find(x=>x.id===id); if(!b){el.innerHTML='<p>Booking not found on this browser.</p>';return} const rows=[['Booking ID',b.id],['Status',b.status],['Customer',b.name],['Phone',b.phone],['Email',b.email],['Home address',b.address],['Event type',b.eventType],['Event date',b.eventDate],['Start time',b.eventTime],['Venue / location',b.venue],['Guests',b.guests],['Package',b.packageName],['Upgrades',(b.upgradeNames||[]).join(', ')],['Extra hours',b.extraHours],['Additional bartenders',b.extraBartenders],['Travel surcharge',money(b.travel)],['Total',money(b.total)],['Deposit paid',money(b.deposit)],['Balance due',money(b.balance)],['Notes',b.notes]]; el.innerHTML=rows.map(([k,v])=>`<div class="jobRow"><b>${k}</b><span>${v||''}</span></div>`).join('')}
-initBooking(); initAdmin(); initJob();
+<body>
+<header class="nav">
+  <a href="index.html">Home</a>
+  <a href="packages.html">Packages</a>
+  <a href="upgrades.html">Upgrades</a>
+  <a href="booking.html">Book Now</a>
 
-</script></body></html>
+</header>
+
+<main class="page">
+  <section class="hero small-hero">
+    <img src="logo.jpg" alt="The Arctic Bar" class="logo">
+    <h1>Booking System</h1>
+    <p>Build your perfect package, choose your flavours and send your enquiry.</p>
+  </section>
+
+  <form id="bookingForm" class="booking-form">
+
+    <section class="panel">
+      <h2>Customer Details</h2>
+
+      <label>Full Name *</label>
+      <input name="fullName" required>
+
+      <label>Phone *</label>
+      <input name="phone" required>
+
+      <label>Email *</label>
+      <input type="email" name="email" required>
+
+      <label>Home Address *</label>
+      <textarea name="homeAddress" required></textarea>
+    </section>
+
+    <section class="panel">
+      <h2>Event Details</h2>
+
+      <label>Event Type *</label>
+      <select name="eventType" required>
+        <option value="">Please choose</option>
+        <option>Birthday</option>
+        <option>Wedding</option>
+        <option>Baby Shower</option>
+        <option>Garden Party</option>
+        <option>Corporate Event</option>
+        <option>Festival / Outdoor Event</option>
+        <option>Children’s Party</option>
+        <option>Other</option>
+      </select>
+
+      <label>Event Date *</label>
+      <input type="date" name="eventDate" required>
+
+      <label>Start Time *</label>
+      <input type="time" name="startTime" required>
+
+      <label>Venue / Location *</label>
+      <input name="venue" required>
+
+      <label>Guests Approx.</label>
+      <input type="number" name="guests" min="1">
+
+      <label>Where will the machine/trailer be set up? *</label>
+      <select name="setupLocation" required>
+        <option value="">Please choose</option>
+        <option>Inside house</option>
+        <option>Inside venue</option>
+        <option>Garden</option>
+        <option>Driveway</option>
+        <option>Trailer on driveway</option>
+        <option>Trailer at venue</option>
+        <option>Other - details in notes</option>
+      </select>
+    </section>
+
+    <section class="panel">
+      <h2>Choose Package</h2>
+
+      <label class="choice"><input type="radio" name="package" value="Bronze" data-price="250"> Bronze - £250</label>
+      <label class="choice"><input type="radio" name="package" value="Silver" data-price="400"> Silver - £400</label>
+      <label class="choice"><input type="radio" name="package" value="Gold" data-price="550"> Gold - £550</label>
+      <label class="choice"><input type="radio" name="package" value="Platinum" data-price="700"> Platinum - £700</label>
+      <label class="choice"><input type="radio" name="package" value="Diamond" data-price="1000"> Diamond - £1,000</label>
+      <label class="choice"><input type="radio" name="package" value="Custom" data-price="0"> Custom / POA</label>
+    </section>
+
+    <section class="panel">
+      <h2>Alcohol Option</h2>
+      <p><strong>Please note:</strong> Alcoholic slush is more expensive because it includes alcohol, licensing requirements and extra preparation.</p>
+
+      <label class="choice"><input type="radio" name="alcoholOption" value="Non-alcoholic" data-price="0"> Non-alcoholic slush</label>
+      <label class="choice"><input type="radio" name="alcoholOption" value="Alcoholic" data-price="100"> Alcoholic slush - from £100 extra</label>
+      <label class="choice"><input type="radio" name="alcoholOption" value="Mixed" data-price="150"> Mixed alcoholic & non-alcoholic - from £150 extra</label>
+    </section>
+
+    <section class="panel">
+      <h2>Choose Flavours</h2>
+      <p>Select all flavours you may want. Final availability will be confirmed before your event.</p>
+
+      <div class="checkbox-grid">
+        <label><input type="checkbox" name="flavours" value="Blue Raspberry"> Blue Raspberry</label>
+        <label><input type="checkbox" name="flavours" value="Strawberry"> Strawberry</label>
+        <label><input type="checkbox" name="flavours" value="Cherry"> Cherry</label>
+        <label><input type="checkbox" name="flavours" value="Cola"> Cola</label>
+        <label><input type="checkbox" name="flavours" value="Bubblegum Pink"> Bubblegum Pink</label>
+        <label><input type="checkbox" name="flavours" value="Bubblegum Blue"> Bubblegum Blue</label>
+        <label><input type="checkbox" name="flavours" value="Watermelon"> Watermelon</label>
+        <label><input type="checkbox" name="flavours" value="Lemon & Lime"> Lemon & Lime</label>
+        <label><input type="checkbox" name="flavours" value="Lemonade"> Lemonade</label>
+        <label><input type="checkbox" name="flavours" value="Orange"> Orange</label>
+        <label><input type="checkbox" name="flavours" value="Blackcurrant"> Blackcurrant</label>
+        <label><input type="checkbox" name="flavours" value="Apple"> Apple</label>
+        <label><input type="checkbox" name="flavours" value="Green Apple"> Green Apple</label>
+        <label><input type="checkbox" name="flavours" value="Tropical"> Tropical</label>
+        <label><input type="checkbox" name="flavours" value="Mixed Fruit"> Mixed Fruit</label>
+        <label><input type="checkbox" name="flavours" value="Raspberry"> Raspberry</label>
+        <label><input type="checkbox" name="flavours" value="Grape"> Grape</label>
+        <label><input type="checkbox" name="flavours" value="Pineapple"> Pineapple</label>
+        <label><input type="checkbox" name="flavours" value="Mango"> Mango</label>
+        <label><input type="checkbox" name="flavours" value="Peach"> Peach</label>
+        <label><input type="checkbox" name="flavours" value="Passionfruit"> Passionfruit</label>
+        <label><input type="checkbox" name="flavours" value="Kiwi"> Kiwi</label>
+        <label><input type="checkbox" name="flavours" value="Fruit Punch"> Fruit Punch</label>
+        <label><input type="checkbox" name="flavours" value="Ice Blast"> Ice Blast</label>
+        <label><input type="checkbox" name="flavours" value="Candyfloss"> Candyfloss</label>
+        <label><input type="checkbox" name="flavours" value="Rainbow"> Rainbow</label>
+        <label><input type="checkbox" name="flavours" value="Vimto Style"> Vimto Style</label>
+        <label><input type="checkbox" name="flavours" value="Cola Cube"> Cola Cube</label>
+        <label><input type="checkbox" name="flavours" value="Kola Kube"> Kola Kube</label>
+        <label><input type="checkbox" name="flavours" value="Pear Drops"> Pear Drops</label>
+        <label><input type="checkbox" name="flavours" value="Rhubarb & Custard"> Rhubarb & Custard</label>
+        <label><input type="checkbox" name="flavours" value="Parma Violet"> Parma Violet</label>
+        <label><input type="checkbox" name="flavours" value="Cherry Cola"> Cherry Cola</label>
+        <label><input type="checkbox" name="flavours" value="Iron Brew"> Iron Brew</label>
+        <label><input type="checkbox" name="flavours" value="Cream Soda"> Cream Soda</label>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Optional Upgrades</h2>
+
+      <label class="choice"><input type="checkbox" name="upgrades" value="DJ" data-price="150"> DJ - £150</label>
+      <label class="choice"><input type="checkbox" name="upgrades" value="LED Shorts & Shots" data-price="45"> LED Shorts & Shots - £45</label>
+      <label class="choice"><input type="checkbox" name="upgrades" value="Candy Floss Machine" data-price="95"> Candy Floss Machine - £95</label>
+      <label class="choice"><input type="checkbox" name="upgrades" value="Popcorn Machine" data-price="95"> Popcorn Machine - £95</label>
+      <label class="choice"><input type="checkbox" name="upgrades" value="Sweet Cart" data-price="95"> Sweet Cart - £95</label>
+      <label class="choice"><input type="checkbox" name="upgrades" value="Extra Bartender" data-price="50"> Extra Bartender - £50</label>
+      <label class="choice"><input type="checkbox" name="upgrades" value="Extra Slush Mix" data-price="40"> Extra Slush Mix - £40 per 6L</label>
+      <label class="choice"><input type="checkbox" name="upgrades" value="Happy Hour Sourz" data-price="50"> Happy Hour Sourz - £50</label>
+      <label class="choice"><input type="checkbox" name="upgrades" value="Test Tube Shots" data-price="50"> Test Tube Shots - £50</label>
+      <label class="choice"><input type="checkbox" name="upgrades" value="Shot Carousel" data-price="70"> Shot Carousel - £70</label>
+    </section>
+
+    <section class="panel">
+      <h2>Extra Information</h2>
+
+      <label>Extra Hours (£50 per hour)</label>
+      <input type="number" name="extraHours" min="0" value="0">
+
+      <label>Additional Bartenders (£50 each)</label>
+      <input type="number" name="extraBartenders" min="0" value="0">
+
+      <label>Travel Surcharge (£ if applicable)</label>
+      <input type="number" name="travel" min="0" value="0">
+
+      <label>Deposit Paid (£)</label>
+      <input type="number" name="deposit" min="0" value="0">
+
+      <label>Additional Notes</label>
+      <textarea name="notes" placeholder="Access issues, stairs, parking, power supply, timing, etc."></textarea>
+    </section>
+
+    <section class="panel summary">
+      <h2>Order Summary</h2>
+      <p>Total: <strong id="totalPrice">£0.00</strong></p>
+      <p>Deposit: <strong id="depositPaid">£0.00</strong></p>
+      <p>Balance: <strong id="balanceDue">£0.00</strong></p>
+
+      <button type="submit" class="btn">Book Now</button>
+      
+    </section>
+
+  </form>
+</main>
+
+<footer>
+  © The Arctic Bar
+</footer>
+
+<script>
+const form = document.getElementById("bookingForm");
+const totalPrice = document.getElementById("totalPrice");
+const depositPaid = document.getElementById("depositPaid");
+const balanceDue = document.getElementById("balanceDue");
+
+function money(amount) {
+  return "£" + Number(amount || 0).toFixed(2);
+}
+
+function getCheckedValues(name) {
+  return [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(i => i.value);
+}
+
+function calculateTotal() {
+  let total = 0;
+
+  document.querySelectorAll("input[data-price]:checked").forEach(input => {
+    total += Number(input.dataset.price || 0);
+  });
+
+  total += Number(form.extraHours.value || 0) * 50;
+  total += Number(form.extraBartenders.value || 0) * 50;
+  total += Number(form.travel.value || 0);
+
+  const deposit = Number(form.deposit.value || 0);
+  const balance = total - deposit;
+
+  totalPrice.textContent = money(total);
+  depositPaid.textContent = money(deposit);
+  balanceDue.textContent = money(balance);
+
+  return { total, deposit, balance };
+}
+
+form.addEventListener("input", calculateTotal);
+form.addEventListener("change", calculateTotal);
+
+form.addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const totals = calculateTotal();
+
+  const booking = {
+    id: Date.now(),
+    status: "New enquiry",
+    createdAt: new Date().toLocaleString(),
+    fullName: form.fullName.value,
+    phone: form.phone.value,
+    email: form.email.value,
+    homeAddress: form.homeAddress.value,
+    eventType: form.eventType.value,
+    eventDate: form.eventDate.value,
+    startTime: form.startTime.value,
+    venue: form.venue.value,
+    guests: form.guests.value,
+    setupLocation: form.setupLocation.value,
+    package: document.querySelector('input[name="package"]:checked')?.value || "",
+    alcoholOption: document.querySelector('input[name="alcoholOption"]:checked')?.value || "",
+    flavours: getCheckedValues("flavours"),
+    upgrades: getCheckedValues("upgrades"),
+    extraHours: form.extraHours.value,
+    extraBartenders: form.extraBartenders.value,
+    travel: form.travel.value,
+    deposit: totals.deposit,
+    total: totals.total,
+    balance: totals.balance,
+    notes: form.notes.value
+  };
+
+  const bookings = JSON.parse(localStorage.getItem("arcticBookings") || "[]");
+  bookings.push(booking);
+  localStorage.setItem("arcticBookings", JSON.stringify(bookings));
+
+  alert("Booking enquiry saved. You can now view it in the admin dashboard.");
+  window.location.href = "admin.html";
+});
+
+calculateTotal();
+</script>
+
+</body>
+</html>

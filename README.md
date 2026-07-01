@@ -1,8 +1,4 @@
-# The Arctic Bar Website — Fixed Version
+# The Arctic Bar Website — Working Booking Fix
 
-This version is phone-upload friendly. Images are in the main/root folder, and the booking/admin code is built into the pages so it still works even if .js files fail to upload.
-
-Upload the extracted files to the root of the GitHub repository.
-
-Admin page: admin.html
-Starter password: Arctic2026
+Upload the extracted files to the root of your GitHub repo.
+This version has the package and upgrade choices written directly into `booking.html`, so they show even on phones where the previous script failed.
