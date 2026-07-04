@@ -1,4 +1,18 @@
-# The Arctic Bar Website — Working Booking Fix
+# The Arctic Bar Website
 
-Upload the extracted files to the root of your GitHub repo.
-This version has the package and upgrade choices written directly into `booking.html`, so they show even on phones where the previous script failed.
+Upload all files and folders to your GitHub repository.
+
+Main pages:
+- index.html
+- packages.html
+- flavours.html
+- upgrades.html
+- booking.html
+- competition.html
+- contact.html
+- style.css
+- assets/arctic-logo.jpg
+
+Contact:
+info@thearcticbar.uk
+07594 141231

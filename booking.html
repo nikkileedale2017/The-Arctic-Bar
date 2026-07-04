@@ -1,281 +1,53 @@
 <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Book | The Arctic Bar</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-
-<body>
-<header class="nav">
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Booking | The Arctic Bar</title><link rel="stylesheet" href="style.css"></head><body>
+<header class="site-header">
+  <a class="brand" href="index.html"><img src="assets/arctic-logo.jpg" alt="The Arctic Bar logo"></a>
+  
+<nav class="nav">
   <a href="index.html">Home</a>
   <a href="packages.html">Packages</a>
+  <a href="flavours.html">Slush Flavours</a>
   <a href="upgrades.html">Upgrades</a>
-  <a href="booking.html">Book Now</a>
+  <a href="booking.html">Booking</a>
+  <a href="competition.html">Competition</a>
+  <a href="contact.html">Contact</a>
+</nav>
 
 </header>
 
-<main class="page">
-  <section class="hero small-hero">
-    <img src="logo.jpg" alt="The Arctic Bar" class="logo">
-    <h1>Booking System</h1>
-    <p>Build your perfect package, choose your flavours and send your enquiry.</p>
-  </section>
-
-  <form id="bookingForm" class="booking-form">
-
-    <section class="panel">
-      <h2>Customer Details</h2>
-
-      <label>Full Name *</label>
-      <input name="fullName" required>
-
-      <label>Phone *</label>
-      <input name="phone" required>
-
-      <label>Email *</label>
-      <input type="email" name="email" required>
-
-      <label>Home Address *</label>
-      <textarea name="homeAddress" required></textarea>
-    </section>
-
-    <section class="panel">
-      <h2>Event Details</h2>
-
-      <label>Event Type *</label>
-      <select name="eventType" required>
-        <option value="">Please choose</option>
-        <option>Birthday</option>
-        <option>Wedding</option>
-        <option>Baby Shower</option>
-        <option>Garden Party</option>
-        <option>Corporate Event</option>
-        <option>Festival / Outdoor Event</option>
-        <option>Children’s Party</option>
-        <option>Other</option>
-      </select>
-
-      <label>Event Date *</label>
-      <input type="date" name="eventDate" required>
-
-      <label>Start Time *</label>
-      <input type="time" name="startTime" required>
-
-      <label>Venue / Location *</label>
-      <input name="venue" required>
-
-      <label>Guests Approx.</label>
-      <input type="number" name="guests" min="1">
-
-      <label>Where will the machine/trailer be set up? *</label>
-      <select name="setupLocation" required>
-        <option value="">Please choose</option>
-        <option>Inside house</option>
-        <option>Inside venue</option>
-        <option>Garden</option>
-        <option>Driveway</option>
-        <option>Trailer on driveway</option>
-        <option>Trailer at venue</option>
-        <option>Other - details in notes</option>
-      </select>
-    </section>
-
-    <section class="panel">
-      <h2>Choose Package</h2>
-
-      <label class="choice"><input type="radio" name="package" value="Bronze" data-price="250"> Bronze - £250</label>
-      <label class="choice"><input type="radio" name="package" value="Silver" data-price="400"> Silver - £400</label>
-      <label class="choice"><input type="radio" name="package" value="Gold" data-price="550"> Gold - £550</label>
-      <label class="choice"><input type="radio" name="package" value="Platinum" data-price="700"> Platinum - £700</label>
-      <label class="choice"><input type="radio" name="package" value="Diamond" data-price="1000"> Diamond - £1,000</label>
-      <label class="choice"><input type="radio" name="package" value="Custom" data-price="0"> Custom / POA</label>
-    </section>
-
-    <section class="panel">
-      <h2>Alcohol Option</h2>
-      <p><strong>Please note:</strong> Alcoholic slush is more expensive because it includes alcohol, licensing requirements and extra preparation.</p>
-
-      <label class="choice"><input type="radio" name="alcoholOption" value="Non-alcoholic" data-price="0"> Non-alcoholic slush</label>
-      <label class="choice"><input type="radio" name="alcoholOption" value="Alcoholic" data-price="100"> Alcoholic slush - from £100 extra</label>
-      <label class="choice"><input type="radio" name="alcoholOption" value="Mixed" data-price="150"> Mixed alcoholic & non-alcoholic - from £150 extra</label>
-    </section>
-
-    <section class="panel">
-      <h2>Choose Flavours</h2>
-      <p>Select all flavours you may want. Final availability will be confirmed before your event.</p>
-
-      <div class="checkbox-grid">
-        <label><input type="checkbox" name="flavours" value="Blue Raspberry"> Blue Raspberry</label>
-        <label><input type="checkbox" name="flavours" value="Strawberry"> Strawberry</label>
-        <label><input type="checkbox" name="flavours" value="Cherry"> Cherry</label>
-        <label><input type="checkbox" name="flavours" value="Cola"> Cola</label>
-        <label><input type="checkbox" name="flavours" value="Bubblegum Pink"> Bubblegum Pink</label>
-        <label><input type="checkbox" name="flavours" value="Bubblegum Blue"> Bubblegum Blue</label>
-        <label><input type="checkbox" name="flavours" value="Watermelon"> Watermelon</label>
-        <label><input type="checkbox" name="flavours" value="Lemon & Lime"> Lemon & Lime</label>
-        <label><input type="checkbox" name="flavours" value="Lemonade"> Lemonade</label>
-        <label><input type="checkbox" name="flavours" value="Orange"> Orange</label>
-        <label><input type="checkbox" name="flavours" value="Blackcurrant"> Blackcurrant</label>
-        <label><input type="checkbox" name="flavours" value="Apple"> Apple</label>
-        <label><input type="checkbox" name="flavours" value="Green Apple"> Green Apple</label>
-        <label><input type="checkbox" name="flavours" value="Tropical"> Tropical</label>
-        <label><input type="checkbox" name="flavours" value="Mixed Fruit"> Mixed Fruit</label>
-        <label><input type="checkbox" name="flavours" value="Raspberry"> Raspberry</label>
-        <label><input type="checkbox" name="flavours" value="Grape"> Grape</label>
-        <label><input type="checkbox" name="flavours" value="Pineapple"> Pineapple</label>
-        <label><input type="checkbox" name="flavours" value="Mango"> Mango</label>
-        <label><input type="checkbox" name="flavours" value="Peach"> Peach</label>
-        <label><input type="checkbox" name="flavours" value="Passionfruit"> Passionfruit</label>
-        <label><input type="checkbox" name="flavours" value="Kiwi"> Kiwi</label>
-        <label><input type="checkbox" name="flavours" value="Fruit Punch"> Fruit Punch</label>
-        <label><input type="checkbox" name="flavours" value="Ice Blast"> Ice Blast</label>
-        <label><input type="checkbox" name="flavours" value="Candyfloss"> Candyfloss</label>
-        <label><input type="checkbox" name="flavours" value="Rainbow"> Rainbow</label>
-        <label><input type="checkbox" name="flavours" value="Vimto Style"> Vimto Style</label>
-        <label><input type="checkbox" name="flavours" value="Cola Cube"> Cola Cube</label>
-        <label><input type="checkbox" name="flavours" value="Kola Kube"> Kola Kube</label>
-        <label><input type="checkbox" name="flavours" value="Pear Drops"> Pear Drops</label>
-        <label><input type="checkbox" name="flavours" value="Rhubarb & Custard"> Rhubarb & Custard</label>
-        <label><input type="checkbox" name="flavours" value="Parma Violet"> Parma Violet</label>
-        <label><input type="checkbox" name="flavours" value="Cherry Cola"> Cherry Cola</label>
-        <label><input type="checkbox" name="flavours" value="Iron Brew"> Iron Brew</label>
-        <label><input type="checkbox" name="flavours" value="Cream Soda"> Cream Soda</label>
-      </div>
-    </section>
-
-    <section class="panel">
-      <h2>Optional Upgrades</h2>
-
-      <label class="choice"><input type="checkbox" name="upgrades" value="DJ" data-price="150"> DJ - £150</label>
-      <label class="choice"><input type="checkbox" name="upgrades" value="LED Shorts & Shots" data-price="45"> LED Shorts & Shots - £45</label>
-      <label class="choice"><input type="checkbox" name="upgrades" value="Candy Floss Machine" data-price="95"> Candy Floss Machine - £95</label>
-      <label class="choice"><input type="checkbox" name="upgrades" value="Popcorn Machine" data-price="95"> Popcorn Machine - £95</label>
-      <label class="choice"><input type="checkbox" name="upgrades" value="Sweet Cart" data-price="95"> Sweet Cart - £95</label>
-      <label class="choice"><input type="checkbox" name="upgrades" value="Extra Bartender" data-price="50"> Extra Bartender - £50</label>
-      <label class="choice"><input type="checkbox" name="upgrades" value="Extra Slush Mix" data-price="40"> Extra Slush Mix - £40 per 6L</label>
-      <label class="choice"><input type="checkbox" name="upgrades" value="Happy Hour Sourz" data-price="50"> Happy Hour Sourz - £50</label>
-      <label class="choice"><input type="checkbox" name="upgrades" value="Test Tube Shots" data-price="50"> Test Tube Shots - £50</label>
-      <label class="choice"><input type="checkbox" name="upgrades" value="Shot Carousel" data-price="70"> Shot Carousel - £70</label>
-    </section>
-
-    <section class="panel">
-      <h2>Extra Information</h2>
-
-      <label>Extra Hours (£50 per hour)</label>
-      <input type="number" name="extraHours" min="0" value="0">
-
-      <label>Additional Bartenders (£50 each)</label>
-      <input type="number" name="extraBartenders" min="0" value="0">
-
-      <label>Travel Surcharge (£ if applicable)</label>
-      <input type="number" name="travel" min="0" value="0">
-
-      <label>Deposit Paid (£)</label>
-      <input type="number" name="deposit" min="0" value="0">
-
-      <label>Additional Notes</label>
-      <textarea name="notes" placeholder="Access issues, stairs, parking, power supply, timing, etc."></textarea>
-    </section>
-
-    <section class="panel summary">
-      <h2>Order Summary</h2>
-      <p>Total: <strong id="totalPrice">£0.00</strong></p>
-      <p>Deposit: <strong id="depositPaid">£0.00</strong></p>
-      <p>Balance: <strong id="balanceDue">£0.00</strong></p>
-
-      <button type="submit" class="btn">Book Now</button>
-      
-    </section>
-
-  </form>
-</main>
-
-<footer>
-  © The Arctic Bar
+<section class="section"><h1>Book The Arctic Bar</h1><p class="lead">Complete the form, then email it to us or message us on socials. We'll confirm availability and get the party started.</p>
+<div class="card">
+<form action="mailto:info@thearcticbar.uk" method="post" enctype="text/plain">
+  <h2>Your Details</h2>
+  <div class="form-row"><label>Name<input name="Name" required></label><label>Phone<input name="Phone" required></label></div>
+  <label>Email<input type="email" name="Email" required></label>
+  <h2>Event Details</h2>
+  <div class="form-row"><label>Event date<input type="date" name="Event Date"></label><label>Event time<input name="Event Time" placeholder="e.g. 6pm - 11pm"></label></div>
+  <label>Event address<textarea name="Event Address" rows="3"></textarea></label>
+  <div class="form-row"><label>Type of event<input name="Event Type" placeholder="Birthday, wedding, festival..."></label><label>Number of guests<input name="Guests" type="number"></label></div>
+  <label>Package<select name="Package"><option>Non-Alcoholic Slush Hire</option><option>Frozen Cocktail Hire</option><option>Bespoke Party Package</option></select></label>
+  <h2>Flavour Choices</h2>
+  <div class="checkbox-grid">
+    <label><input type="checkbox" name="Flavours" value="Strawberry Daiquiri"> Strawberry Daiquiri</label><label><input type="checkbox" name="Flavours" value="Blue Lagoon"> Blue Lagoon</label><label><input type="checkbox" name="Flavours" value="Vodka Red Bull"> Vodka Red Bull</label><label><input type="checkbox" name="Flavours" value="Piña Colada"> Piña Colada</label><label><input type="checkbox" name="Flavours" value="Margarita"> Margarita</label><label><input type="checkbox" name="Flavours" value="Mixed Fruit Punch"> Mixed Fruit Punch</label><label><input type="checkbox" name="Flavours" value="Jägerbomb"> Jägerbomb</label><label><input type="checkbox" name="Flavours" value="Passionfruit Martini"> Passionfruit Martini</label><label><input type="checkbox" name="Flavours" value="Disaronno & Coke"> Disaronno & Coke</label><label><input type="checkbox" name="Flavours" value="Prosecco"> Prosecco</label><label><input type="checkbox" name="Flavours" value="Pimms"> Pimms</label><label><input type="checkbox" name="Flavours" value="Cherry Amaretto"> Cherry Amaretto</label><label><input type="checkbox" name="Flavours" value="Mojito"> Mojito</label><label><input type="checkbox" name="Flavours" value="Cheeky Vimto"> Cheeky Vimto</label><label><input type="checkbox" name="Flavours" value="Strawberry Tequila Rose"> Strawberry Tequila Rose</label><label><input type="checkbox" name="Flavours" value="JD & Coke"> JD & Coke</label><label><input type="checkbox" name="Flavours" value="Archers & Lemonade"> Archers & Lemonade</label><label><input type="checkbox" name="Flavours" value="Apple Sourz"> Apple Sourz</label><label><input type="checkbox" name="Flavours" value="Kola Kube"> Kola Kube</label><label><input type="checkbox" name="Flavours" value="Pink Bubblegum"> Pink Bubblegum</label><label><input type="checkbox" name="Flavours" value="Blue Bubblegum"> Blue Bubblegum</label><label><input type="checkbox" name="Flavours" value="Espresso Martini"> Espresso Martini</label><label><input type="checkbox" name="Flavours" value="Blue Raspberry"> Blue Raspberry</label><label><input type="checkbox" name="Flavours" value="Pornstar Martini"> Pornstar Martini</label><label><input type="checkbox" name="Flavours" value="Long Island"> Long Island</label><label><input type="checkbox" name="Flavours" value="Cherry Bakewell Bomb"> Cherry Bakewell Bomb</label><label><input type="checkbox" name="Flavours" value="Miami Vice"> Miami Vice</label><label><input type="checkbox" name="Flavours" value="Daiquiri Zinger"> Daiquiri Zinger</label><label><input type="checkbox" name="Flavours" value="Arctic Bomb"> Arctic Bomb</label>
+  </div>
+  <h2>Upgrades</h2>
+  <div class="checkbox-grid">
+    <label><input type="checkbox" name="Upgrades" value="Extra slush mix"> Extra slush mix</label><label><input type="checkbox" name="Upgrades" value="Novelty cups"> Novelty cups</label><label><input type="checkbox" name="Upgrades" value="Personalised cups"> Personalised cups</label><label><input type="checkbox" name="Upgrades" value="DJ"> DJ</label><label><input type="checkbox" name="Upgrades" value="LED lighting"> LED lighting</label><label><input type="checkbox" name="Upgrades" value="Pop-up bar"> Pop-up bar</label><label><input type="checkbox" name="Upgrades" value="Candy floss machine"> Candy floss machine</label><label><input type="checkbox" name="Upgrades" value="Popcorn machine"> Popcorn machine</label><label><input type="checkbox" name="Upgrades" value="Cake stand hire"> Cake stand hire</label><label><input type="checkbox" name="Upgrades" value="Sweet cart"> Sweet cart</label><label><input type="checkbox" name="Upgrades" value="Pick n mix"> Pick n mix</label><label><input type="checkbox" name="Upgrades" value="Pub snacks"> Pub snacks</label><label><input type="checkbox" name="Upgrades" value="Chilled soft drinks"> Chilled soft drinks</label><label><input type="checkbox" name="Upgrades" value="Canned cocktails"> Canned cocktails</label><label><input type="checkbox" name="Upgrades" value="Extra bartenders"> Extra bartenders</label><label><input type="checkbox" name="Upgrades" value="Shot carousel"> Shot carousel</label><label><input type="checkbox" name="Upgrades" value="Drink tokens"> Drink tokens</label>
+  </div>
+  <label>Message<textarea name="Message" rows="5" placeholder="Tell us what you're planning..."></textarea></label>
+  <button class="btn" type="submit">Send Booking Enquiry</button>
+  <p class="notice">This opens your email app. You can also contact us directly at info@thearcticbar.uk or 07594 141231.</p>
+</form></div></section>
+<footer class="footer">
+  <div>
+    <strong>The Arctic Bar</strong><br>
+    We bring the party to you. #stayfrosty
+  </div>
+  <div>
+    <a href="mailto:info@thearcticbar.uk">info@thearcticbar.uk</a><br>
+    <a href="tel:07594141231">07594 141231</a><br>
+    Socials: @thearcticbar
+  </div>
 </footer>
-
-<script>
-const form = document.getElementById("bookingForm");
-const totalPrice = document.getElementById("totalPrice");
-const depositPaid = document.getElementById("depositPaid");
-const balanceDue = document.getElementById("balanceDue");
-
-function money(amount) {
-  return "£" + Number(amount || 0).toFixed(2);
-}
-
-function getCheckedValues(name) {
-  return [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(i => i.value);
-}
-
-function calculateTotal() {
-  let total = 0;
-
-  document.querySelectorAll("input[data-price]:checked").forEach(input => {
-    total += Number(input.dataset.price || 0);
-  });
-
-  total += Number(form.extraHours.value || 0) * 50;
-  total += Number(form.extraBartenders.value || 0) * 50;
-  total += Number(form.travel.value || 0);
-
-  const deposit = Number(form.deposit.value || 0);
-  const balance = total - deposit;
-
-  totalPrice.textContent = money(total);
-  depositPaid.textContent = money(deposit);
-  balanceDue.textContent = money(balance);
-
-  return { total, deposit, balance };
-}
-
-form.addEventListener("input", calculateTotal);
-form.addEventListener("change", calculateTotal);
-
-form.addEventListener("submit", function(e) {
-  e.preventDefault();
-
-  const totals = calculateTotal();
-
-  const booking = {
-    id: Date.now(),
-    status: "New enquiry",
-    createdAt: new Date().toLocaleString(),
-    fullName: form.fullName.value,
-    phone: form.phone.value,
-    email: form.email.value,
-    homeAddress: form.homeAddress.value,
-    eventType: form.eventType.value,
-    eventDate: form.eventDate.value,
-    startTime: form.startTime.value,
-    venue: form.venue.value,
-    guests: form.guests.value,
-    setupLocation: form.setupLocation.value,
-    package: document.querySelector('input[name="package"]:checked')?.value || "",
-    alcoholOption: document.querySelector('input[name="alcoholOption"]:checked')?.value || "",
-    flavours: getCheckedValues("flavours"),
-    upgrades: getCheckedValues("upgrades"),
-    extraHours: form.extraHours.value,
-    extraBartenders: form.extraBartenders.value,
-    travel: form.travel.value,
-    deposit: totals.deposit,
-    total: totals.total,
-    balance: totals.balance,
-    notes: form.notes.value
-  };
-
-  const bookings = JSON.parse(localStorage.getItem("arcticBookings") || "[]");
-  bookings.push(booking);
-  localStorage.setItem("arcticBookings", JSON.stringify(bookings));
-
-  alert("Booking enquiry saved. You can now view it in the admin dashboard.");
-  window.location.href = "admin.html";
-});
-
-calculateTotal();
-</script>
-
-</body>
-</html>
+</body></html>
